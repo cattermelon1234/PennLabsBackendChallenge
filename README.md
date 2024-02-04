@@ -1,9 +1,5 @@
 # Penn Labs Backend Challenge
 
-## Documentation
-
-Fill out this section as you complete the challenge!
-
 ## Installation
 
 1. Click the green "use this template" button to make your own copy of this repository, and clone it. Make sure to create a **private repository**.
@@ -14,6 +10,30 @@ Fill out this section as you complete the challenge!
 4. Install `poetry`
    - `pipx install poetry`
 5. Install packages using `poetry install`.
+6. Install flask using `pip install flask`
+7. Install flask_sqlalchemy using `pip install flask_sqlalchemy`
+8. Install flask_caching using `pip install flask_caching`
+
+### Loading Data into Database
+run `poetry run python bootstrap.py` to populate the database. You should only need to do this once. 
+
+## Design Documentation
+
+### API (app.py)
+| URL Route                | HTTP Method | Parameters | Usage                                                                     |
+| ------------------------ | ----------- | ---------- | --------------------------------------------------------------------      |
+| `/`                      | `GET`       | `N/A`      | Returns a welcome message: 'Welcome to Penn Club Review!'                 |
+| `/api`                   | `GET`       | `N/A`      | Returns a jsonified message welcoming to the Club Review api              | 
+| `/api/clubs`             | `GET`       | `N/A`      | Returns a jsonified list of all clubs and all their attributes            |
+| `/api/<user_id>`         | `GET`       | `<user_id>`| Returns a json of the attributes of the user in question (searched by id) |    
+| `/api/search/<search>`   | `GET`       | `<search>` | Returns a jsonified list of all clubs containing search string in its name |
+| `/api/create_club`       | `POST`      |
+
+
+
+### Models (models.py)
+
+
 
 ## File Structure
 
