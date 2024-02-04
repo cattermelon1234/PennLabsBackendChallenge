@@ -14,8 +14,10 @@
 7. Install flask_sqlalchemy using `pip install flask_sqlalchemy`
 8. Install flask_caching using `pip install flask_caching`
 
-### Loading Data into Database
+### Run Instructions
 run `poetry run python bootstrap.py` to populate the database. You should only need to do this once. 
+run `source flask/bin/activate` to enter the flask virtual environment.
+run `flask run` to run app.py and start the live server! 
 
 ## Design Documentation
 
@@ -30,8 +32,7 @@ run `poetry run python bootstrap.py` to populate the database. You should only n
 | `/api/tags`              | `GET`       | `N/A`         | Returns a jsonified list of all tags and their attributes, including which clubs they are attached to |
 | `/api/create_club/`      | `POST`      | `code`, `name` <br>`description`, `tags` | Creates a new club and commits it to the database with all the given specifications (must be in json format)
 | `/api/favorite/<club_code>` | `POST`     | `<club_code>` | Adds a like to the specified club in `club_code` | 
-| `/api/modify_club/<club_code>` | `POST`  | `code`, `name`, `description` <br> `tags_to_add`, `tags_to_delete` | Modifies each parameter changed by the request (in json format), changes nothing if the string "N/A" is passed into the field| 
-
+| `/api/modify_club/<club_code>` | `POST`  | `code`, `name`, `description` <br> `tags_to_add`, `tags_to_delete` | Modifies each parameter changed by the request (in json format), changes nothing if the string "N/A" is passed into the field. Note: duplicate tags are ignored| 
 
 
 ### Models (models.py)
@@ -60,6 +61,10 @@ My database contained 3 classes and 1 association table.
    * tag_id: Foreign Key linking a Club to the tags assigned to it
 
 ## Testing
+
+### GET REQUESTS
+
+You could use POSTMAN (see instructions under POST REQUESTS for how to set up POSTMAN), or simply run the api route in your local browser. 
 
 ### POST REQUESTS
 #### OPTION 1: Using Curl to create POST requests
