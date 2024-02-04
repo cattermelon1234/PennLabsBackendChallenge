@@ -25,16 +25,25 @@ run `poetry run python bootstrap.py` to populate the database. You should only n
 | `/`                      | `GET`       | `N/A`         | Returns a welcome message: 'Welcome to Penn Club Review!'                 |
 | `/api`                   | `GET`       | `N/A`         | Returns a jsonified message welcoming to the Club Review api              | 
 | `/api/clubs`             | `GET`       | `N/A`         | Returns a jsonified list of all clubs and all their attributes            |
-| `/api/<user_id>`         | `GET`       | `<user_id>`: unique id of user   | Returns a json of the attributes of the user in question (searched by id) |    
-| `/api/search/<search>`   | `GET`       | `<search>`: string search query    | Returns a jsonified list of all clubs containing search string in its name |
-| `/api/create_club/`      | `POST`      | `code`: club code <br> `name`: club name <br>`description`: club summary <br>`tags`: array of tag strings describing the club | Creates a new club and commits it to the database with all the given specifications (must be in json format)
-| `/api/favorite/<club_code>` | `POST`     | `<club_code>`: the code of an existing club | Adds a like to the specified club in `club_code` | 
-| `/api/modify_club/<club_code>` | `POST`  | `code`: new code <br> `name`: new name <br> `description`: new summary <br> `tags_to_add`: list of tags to add <br> `tags_to_delete`: list of tags to delete | Modifies each parameter changed by the request, changes nothing if the string "N/A" is passed |
+| `/api/<user_id>`         | `GET`       | `<user_id>`  | Returns a json of the attributes of the user in question (searched by id) |    
+| `/api/search/<search>`   | `GET`       | `<search>`    | Returns a jsonified list of all clubs containing search string in its name |
+| `/api/tags`              | `GET`       | `N/A`         | Returns a jsonified list of all tags and their attributes, including which clubs they are attached to |
+| `/api/create_club/`      | `POST`      | `code`, `name` <br>`description`, `tags` | Creates a new club and commits it to the database with all the given specifications (must be in json format)
+| `/api/favorite/<club_code>` | `POST`     | `<club_code>` | Adds a like to the specified club in `club_code` | 
+| `/api/modify_club/<club_code>` | `POST`  | `code`, `name`, `description` <br> `tags_to_add`, `tags_to_delete` | Modifies each parameter changed by the request (in json format), changes nothing if the string "N/A" is passed into the field| 
 
 
 
 ### Models (models.py)
+My database contained 3 classes and 1 association table. 
 
+####1. User Class
+
+####2. Club Class
+
+####3. Tag Class
+
+####4. Club_Categories Table
 
 
 ## File Structure
