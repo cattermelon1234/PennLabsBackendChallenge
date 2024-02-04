@@ -59,6 +59,43 @@ My database contained 3 classes and 1 association table.
    * club_code: Foreign Key linking a Tag to the specified club the tag is assigned to
    * tag_id: Foreign Key linking a Club to the tags assigned to it
 
+## Testing
+
+### POST REQUESTS
+#### OPTION 1: Using Curl to create POST requests
+
+Example Request 1 (create_club)
+```
+curl --location 'http://127.0.0.1:5000/api/create_club' \
+--header 'Content-Type: application/json \
+--data
+{
+   "code": "abcd",
+   "name": "Penn Alphabet Club",
+   "description": "This is a club for alphabet enjoyers at Penn!",
+   "tags": ["Literary", "Undergraduate"]
+}
+```
+Example Request 2 (modify_club)
+```
+curl --location 'http://127.0.0.1:5000/api/modify_club/abcd' \
+--header 'Content-Type: application/json \
+--data
+{
+   "name": "Penn ABC Song Club",
+   "description": "This is a club for people who love to sing the alphabet at Penn!",
+   "tags_to_add": ["Singing"],
+   "tags_to_remove": "N/A"
+}
+```
+One possible method to test out Curl requests is through making curl requests once the server is active. 
+
+#### OPTION 2: Using POSTMAN to create POST requests
+1. Open `https://www.postman.com/` and click `My workspace` and the `+` button near the tabs
+2. Paste in the desired api route (ex: `http://127.0.0.1:5000/api/modify_club/abcd'`) and make sure to toggle to `POST`
+3. Under the bar where you entered the URL, you should see a lot of options. Click `Body` then `raw`, which should prompt you with an empty text box
+4. Enter in the desired post request content in json form in the text box, following the examples above
+
 ## File Structure
 
 - `app.py`: Main file. Has configuration and setup at the top. Add your [URL routes](https://flask.palletsprojects.com/en/1.1.x/quickstart/#routing) to this file!
