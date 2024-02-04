@@ -12,10 +12,10 @@
 5. Install packages using `poetry install`.
 
 ### Run Instructions
-run `poetry shell` to activate the poetry shell
-Install flask using `pip install flask`
-Install flask_sqlalchemy using `pip install flask_sqlalchemy`
-Install flask_caching using `pip install Flask-caching`
+run `poetry shell` to activate the poetry shell <br>
+Install flask using `pip install flask` <br>
+Install flask_sqlalchemy using `pip install flask_sqlalchemy` <br>
+Install flask_caching using `pip install Flask-caching` <br>
 run `python3 bootstrap.py` to populate the database. You should only need to do this once. <br>
 run `flask run` to run app.py and start the live server! <br>
 
