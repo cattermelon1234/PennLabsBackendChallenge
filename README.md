@@ -15,9 +15,9 @@
 8. Install flask_caching using `pip install flask_caching`
 
 ### Run Instructions
-run `poetry run python bootstrap.py` to populate the database. You should only need to do this once. 
-run `source flask/bin/activate` to enter the flask virtual environment.
-run `flask run` to run app.py and start the live server! 
+run `poetry run python bootstrap.py` to populate the database. You should only need to do this once. <br>
+run `source flask/bin/activate` to enter the flask virtual environment. <br>
+run `flask run` to run app.py and start the live server! <br>
 
 ## Design Documentation
 
@@ -52,7 +52,7 @@ My database contained 3 classes and 1 association table.
      
 4. Tag Class (a database representing registered tags)
    * id: a unique id of each created tag, autoincremented by row
-   * name:
+   * name: the name of the tag
    * clubs: relationship with the "Club" class, refers to the secondary database "Club_Categories"
    
 6. Club_Categories Table (a table relating clubs to their assigned tags, and vice versa)
