@@ -27,7 +27,8 @@ run `poetry run python bootstrap.py` to populate the database. You should only n
 | `/api/clubs`             | `GET`       | `N/A`      | Returns a jsonified list of all clubs and all their attributes            |
 | `/api/<user_id>`         | `GET`       | `<user_id>`| Returns a json of the attributes of the user in question (searched by id) |    
 | `/api/search/<search>`   | `GET`       | `<search>` | Returns a jsonified list of all clubs containing search string in its name |
-| `/api/create_club`       | `POST`      |
+| `/api/create_club/`      | `POST`      | `code`
+`name`
 
 
 
