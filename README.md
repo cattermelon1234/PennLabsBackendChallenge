@@ -10,14 +10,13 @@
 4. Install `poetry`
    - `pipx install poetry`
 5. Install packages using `poetry install`.
-6. Install the venv by running `python -m venv flask`
-7. Install flask using `pip install flask`
-8. Install flask_sqlalchemy using `pip install flask_sqlalchemy`
-9. Install flask_caching using `pip install flask_caching`
 
 ### Run Instructions
-run `poetry run python bootstrap.py` to populate the database. You should only need to do this once. <br>
-run `source flask/bin/activate` to enter the flask virtual environment. <br>
+run `poetry shell` to activate the poetry shell
+Install flask using `pip install flask`
+Install flask_sqlalchemy using `pip install flask_sqlalchemy`
+Install flask_caching using `pip install Flask-caching`
+run `python3 bootstrap.py` to populate the database. You should only need to do this once. <br>
 run `flask run` to run app.py and start the live server! <br>
 
 ## Design Documentation
