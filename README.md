@@ -37,14 +37,27 @@ run `poetry run python bootstrap.py` to populate the database. You should only n
 ### Models (models.py)
 My database contained 3 classes and 1 association table. 
 
-####1. User Class
+1. User Class (a database representing registered users)
+   * id: a unique String id of the user comprised of their name and a number (ex: josh150) (NOT MUTABLE)
+   * name: the name of the user (String), the maximum length is 80
+   * email: the email of the user (String), the maximum length is 120
 
-####2. Club Class
-
-####3. Tag Class
-
-####4. Club_Categories Table
-
+3. Club Class (a database representing registered clubs)
+   * code: a unique String code assigned to every club upon creation (NOT MUTABLE)
+   * name: the assigned name of the club, the maximum length is 50
+   * description: a short blurb describing the club to potential newcomers, the maximum length is 500
+   * likes: an integer representing the amount of likes a club has received
+   * tags: relationship with the "Tag" class, refers to the secondary database "Club_Categories"
+     
+4. Tag Class (a database representing registered tags)
+   * id: a unique id of each created tag, autoincremented by row
+   * name:
+   * clubs: relationship with the "Club" class, refers to the secondary database "Club_Categories"
+   
+6. Club_Categories Table (a table relating clubs to their assigned tags, and vice versa)
+   * id: a unique id of each relationship entry in the table, autoincremented by row
+   * club_code: Foreign Key linking a Tag to the specified club the tag is assigned to
+   * tag_id: Foreign Key linking a Club to the tags assigned to it
 
 ## File Structure
 
