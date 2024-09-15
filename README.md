@@ -12,53 +12,72 @@
 5. Install packages using `poetry install`.
 
 ### Run Instructions
-Install flask using `pip install flask` <br>
-Install flask_sqlalchemy using `pip install flask_sqlalchemy` <br>
-Install flask_caching using `pip install Flask-Caching` <br>
 run `poetry shell` to activate the poetry shell <br>
+run `poetry install` to install all dependencies
 run `python3 bootstrap.py` to populate the database. You should only need to do this once. <br>
 run `flask run` to run app.py and start the live server! <br>
 
 ## Design Documentation
 
 ### API (app.py)
-| URL Route                | HTTP Method | Parameters         | Usage                                                                     |
-| ------------------------ | ----------- | ----------    | --------------------------------------------------------------------      |
-| `/`                      | `GET`       | `N/A`         | Returns a welcome message: 'Welcome to Penn Club Review!'                 |
-| `/api`                   | `GET`       | `N/A`         | Returns a jsonified message welcoming to the Club Review api              | 
-| `/api/clubs`             | `GET`       | `N/A`         | Returns a jsonified list of all clubs and all their attributes            |
-| `/api/<user_id>`         | `GET`       | `<user_id>`  | Returns a json of the attributes of the user in question (searched by id) |    
-| `/api/search/<search>`   | `GET`       | `<search>`    | Returns a jsonified list of all clubs containing search string in its name |
-| `/api/tags`              | `GET`       | `N/A`         | Returns a jsonified list of all tags and their attributes, including which clubs they are attached to |
-| `/api/create_club/`      | `POST`      | `code`, `name` <br>`description`, `tags` | Creates a new club and commits it to the database with all the given specifications (must be in json format)
-| `/api/favorite/<club_code>` | `POST`     | `<club_code>` | Adds a like to the specified club in `club_code` | 
-| `/api/modify_club/<club_code>` | `POST`  | `code`, `name`, `description` <br> `tags_to_add`, `tags_to_delete` | Modifies each parameter changed by the request (in json format), changes nothing if the string "N/A" is passed into the field. Note: duplicate tags are ignored| 
+| URL Route                | HTTP Method | Parameters   | Body content     | Usage                                                                     |
+| ------------------------ | ----------- | ----------    | --------------------------- | --------------------------------------------------------------------      |
+| `/`                      | `GET`       | `N/A`         | `N/A` | Returns a welcome message: 'Welcome to Penn Club Review!'                 |
+| `/api`                   | `GET`       | `N/A`         | `N/A` | Returns a jsonified message welcoming to the Club Review api              | 
+| `/api/clubs`             | `GET`       | `N/A`         | `N/A` | Returns a jsonified list of all clubs and all their attributes            |
+| `/api/<user_id>`         | `GET`       | `<user_id>`   | `N/A` | Returns a json of the attributes of the user in question (searched by id) |    
+| `/api/search/<search>`   | `GET`       | `<search>`    | `N/A` | Returns a jsonified list of all clubs containing search string in its name |
+| `/api/tags`              | `GET`       | `N/A`         | `N/A` | Returns a jsonified list of all tags and their attributes, including which clubs they are attached to |
+| `/api/comments/student/<student_id>` | `GET`  | `<student_id>` | `N/A` | Gets all comments made by a particular user. |
+| `/api/comments/<club_code>` | `GET`  | `<club_code>` | `N/A` | Gets all comments under a club by its club code.|
 
+### Authentication API (app.py)
+| URL Route                | HTTP Method | Parameters    | Body content     | Usage                                                                     |
+| ------------------------ | ----------- | ----------    | --------------------------- | --------------------------------------------------------------------      |
+| `/login`                 | `POST`      | `N/A` | `id`: student_id, <br> `password`: student_password| Logs in the user by the given id and password, returning an authorization token |
+| `/register`              | `POST`      | `N/A` | `id`: student_id, <br> `name`: student_name, <br> `email`: student_email, <br> `password`: student_password| Registers a new user, required id, name, email, and password. Must call login after to log in the new user.|
+| `/api/create_club/`      | `POST`      | `N/A` | `code`: club_code, <br>`name`: club_name, <br>`description`: club_description, <br> `tags`: club_tags | Creates a new club and commits it to the database with all the given specifications (must be in json format)
+| `/api/favorite/<club_code>` | `POST`     | `<club_code>` | `N/A` | Adds a like to the specified club in `club_code` | 
+| `/api/modify_club/<club_code>` | `POST`  | `club_code` | `code`: club_code, <br>`name`: club_name, <br>`description`: club_description, <br> `tags`: club_tags | Modifies each parameter changed by the request (in json format)|
+| `/api/comments/<club_code>` | `POST`  | `<club_code>`, | `content`: comment_content, <br> `parent_id`: id of parent comment (optional) <br> | Creates a comment under a particular club through a logged in user. Parent_id is optional, put in the parent comment id if you are replying to a different comment| 
+| `/api/modify_comment/<comment_id>` | `POST`  | `<comment_id>` | `content`: comment_content | Modifies an existing comment by its id, users can only modify their own comments.|
+| `/api/comments/<comment_id>` | `DELETE`  | `<comment_id>`, | `N/A` | Deletes a given comment by its id, also deletes all children comments along with it. | 
 
 ### Models (models.py)
 My database contained 3 classes and 1 association table. 
 
-1. User Class (a database representing registered users)
+1. User Class (a model representing registered users)
    * id: a unique String id of the user comprised of their name and a number (ex: josh150) (NOT MUTABLE)
    * name: the name of the user (String), the maximum length is 80
    * email: the email of the user (String), the maximum length is 120
+   * password: the password of the user, stored after encrypting/hashing the provided user password 
 
-3. Club Class (a database representing registered clubs)
+2. Club Class (a model representing registered clubs)
    * code: a unique String code assigned to every club upon creation (NOT MUTABLE)
    * name: the assigned name of the club, the maximum length is 50
    * description: a short blurb describing the club to potential newcomers, the maximum length is 500
    * likes: an integer representing the amount of likes a club has received
    * tags: relationship with the "Tag" class, refers to the secondary database "Club_Categories"
      
-4. Tag Class (a database representing registered tags)
+3. Tag Class (a model representing registered tags)
    * id: a unique id of each created tag, autoincremented by row
    * name: the name of the tag
    * clubs: relationship with the "Club" class, refers to the secondary database "Club_Categories"
    
-6. Club_Categories Table (a table relating clubs to their assigned tags, and vice versa)
+4. Club_Categories Table (a table relating clubs to their assigned tags, and vice versa)
    * id: a unique id of each relationship entry in the table, autoincremented by row
    * club_code: Foreign Key linking a Tag to the specified club the tag is assigned to
    * tag_id: Foreign Key linking a Club to the tags assigned to it
+
+5. Comment Class: (a model representing comments)
+   * id: id of each comment, is a unique value for each comment
+   * club_code: Each comment must be under a specific club, so club_code is the code of the parent club (Foreign key linked to the club table)
+   * user_id: id of the user who posted the comment (Foreign key linked to the User table)
+   * parent_id: id of the parent comment (if applicable), foreign key to the comment table, referring to itself since comments can have parents and children
+   * content: the content or text within the comment
+   * created_at: timestamp of comment creation
+   * updated_at: timestamp of most recent modification of the comment
+   * replies: A relationship modeling comment to comment relationships. The replies to a comment are other comments, so we back reference the comment class, and cascade "all, delete-orphan" automatically deletes all children comments of a parent comment when it is deleted.
 
 ## Testing
 
